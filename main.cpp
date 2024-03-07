@@ -3,16 +3,31 @@ using namespace std;
 
 #include "functions-binary-tree.hpp"
 
+string mainMenu[] = {
+    "Sair",
+    "Incluir",
+    "Mostrar pr√©-ordem",
+    "Mostrar ordem sim√©trica",
+    "Mostrar p√≥s-ordem"
+};
+
 int main()
 {
-    // 0 ñ Sair
-    // 1 ñ Incluir
-    // 2 ñ Mostrar prÈ-ordem
-    // 3 ñ Mostrar ordem simÈtrica
-    // 4 ñ Mostrar pÛs-ordem
+    // 0 - Sair
+    // 1 - Incluir
+    // 2 - Mostrar pr√©-ordem
+    // 3 - Mostrar ordem sim√™trica
+    // 4 - Mostrar p√≥s-ordem
 
     setlocale(LC_ALL, "Portuguese");
     cout << "Hello world!" << endl;
     return 0;
 }
 
+void showMenu() {
+    cout << "***** Menu *****" << endl;
+    for (int i = 0; i < sizeof(mainMenu) / sizeof(mainMenu[0]); ++i) {
+        cout << i + 1 << " - " << mainMenu[i] << endl;
+    }
+    cout << "*****************" << endl;
+}
