@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1710039386 source:c:\users\elien\github\binary-tree\main.cpp
+	<iostream>
+	<windows.h>
+	<locale>
+

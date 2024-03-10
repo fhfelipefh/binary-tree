@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+bin/Debug/binary-tree.exe
+obj/Debug/main.o
+obj/Debug/main.o
+.idea/binary-tree.iml
+.idea/modules.xml
+.idea/vcs.xml
