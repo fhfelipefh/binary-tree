@@ -3,43 +3,6 @@
 #include <locale>
 using namespace std;
 
-void show_menu(string menu[], int size) {
-    int selectedOption = -1;
-
-    while (selectedOption != 0) {
-        system("cls");
-        cout << "\n**Menu Principal**\n";
-
-        for (int i = 0; i < size; i++) {
-            cout << i << " - " << menu[i] << endl;
-        }
-
-        cout << "\nDigite a opcao desejada: (0 - sair): ";
-        cin >> selectedOption;
-        cout << endl;
-
-        switch (selectedOption) {
-            case 0:
-                break;
-            case 1:
-                cout << "Opcao 1 selecionada. Chame a função correspondente aqui." << endl;
-                break;
-            case 2:
-                cout << "Opcao 1 selecionada. Chame a função correspondente aqui." << endl;
-                break;
-            case 3:
-                cout << "Opcao 1 selecionada. Chame a função correspondente aqui." << endl;
-                break;
-            case 4:
-                cout << "Opcao 1 selecionada. Chame a função correspondente aqui." << endl;
-                break;
-            default:
-                cout << "Opcao nao implementada. Tente novamente." << endl;
-                break;
-        }
-    }
-}
-
 struct Tree {
     int info;
     Tree *stl; // left
@@ -82,14 +45,14 @@ void show_pre_order(Tree *tree)
     cout << ">";
 }
 
-void show_in_order(Tree *tree)
+void show_in_simetric_order(Tree *tree)
 {
     cout << "<";
     if(!is_empty_tree(tree))
     {
-        show_in_order(tree->stl);
+        show_in_simetric_order(tree->stl);
         cout << tree->info;
-        show_in_order(tree->str);
+        show_in_simetric_order(tree->str);
     }
     cout << ">";
 }
@@ -106,6 +69,69 @@ void show_post_order(Tree *tree)
     cout << ">";
 }
 
+int get_number_dialog() {
+    int num;
+    cout << "Digite um numero: ";
+    cin >> num;
+    return num;
+}
+
+void pause() {
+    cout << "\n" << endl;
+    system("pause");
+}
+
+void show_menu(string menu[], int size, Tree *root) {
+    int selectedOption = -1;
+
+    while (selectedOption != 0) {
+        system("cls");
+        cout << "\n**Menu Principal**\n";
+
+        for (int i = 0; i < size; i++) {
+            cout << i << " - " << menu[i] << endl;
+        }
+
+        cout << "\nDigite a opcao desejada: (0 - sair): ";
+        cin >> selectedOption;
+        cout << endl;
+
+        int num = 0;
+        switch (selectedOption) {
+            case 0:
+                break;
+            case 1:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                num = get_number_dialog();
+                insert_in_tree(&root, num);
+                break;
+            case 2:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_pre_order(root);
+                pause();
+                break;
+            case 3:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_in_simetric_order(root);
+                pause();
+                break;
+            case 4:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_post_order(root);
+                pause();
+                break;
+            default:
+                system("cls");
+                cout << "Opcao nao implementada. Tente novamente." << endl;
+                break;
+        }
+    }
+}
+
 int main()
 {
     setlocale(LC_ALL, "Portuguese");
@@ -120,7 +146,9 @@ int main()
         "Mostrar pos-ordem"
     };
 
-    show_menu(menu, menu_size);
+    Tree *root = nullptr;
+
+    show_menu(menu, menu_size, root);
 
     cout << "Programa encerrado. Até mais!" << endl;
 
