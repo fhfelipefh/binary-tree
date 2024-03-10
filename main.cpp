@@ -1,6 +1,12 @@
 #include <iostream>
 #include <windows.h>
 #include <locale>
+#include <limits>
+#include <algorithm>
+#include <sstream>
+#include <string>
+#include <cctype>
+
 using namespace std;
 
 struct Tree {
@@ -142,10 +148,73 @@ int show_right_sub_tree_height(Tree *tree) {
     return height;
 }
 
+int find_tree_height(Tree *tree) {
+    if (tree == nullptr) {
+        return 0;
+    } else {
+        int left_height = find_tree_height(tree->stl);
+        int right_height = find_tree_height(tree->str);
+        return max(left_height, right_height) + 1;
+    }
+}
+
+void show_tree_height(Tree *tree) {
+    int height = find_tree_height(tree);
+    cout << "Altura da arvore: " << height << endl;
+}
+
+void free_nodes(Tree *tree) {
+    if (tree == NULL) {
+        return;
+    }
+
+    free_nodes(tree->stl);
+    free_nodes(tree->str);
+
+    delete tree->stl;
+    delete tree->str;
+
+    tree->stl = NULL;
+    tree->str = NULL;
+}
+
+int get_element_level(Tree *tree, int num) {
+    int level = 0;
+    Tree *current = tree;
+
+    while (current != NULL) {
+        if (num == current->info) {
+            cout << "O numero " << num << " esta no nivel " << level << endl;
+            return level;
+        } else if (num < current->info) {
+            current = current->stl;
+        } else {
+            current = current->str;
+        }
+        level++;
+    }
+
+    cout << "O numero " << num << " nao esta na arvore" << endl;
+    return -1;
+}
+
 int get_number_dialog() {
     int num;
+    string input;
     cout << "Digite um numero: ";
-    cin >> num;
+
+    while (true) {
+        cin >> input;
+        if (all_of(input.begin(), input.end(), ::isdigit)) {
+            stringstream ss(input);
+            ss >> num;
+            break;
+        } else {
+            cout << "Digite um numero valido: ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
     return num;
 }
 
@@ -207,16 +276,19 @@ void show_menu(string menu[], int size, Tree *root) {
             case 6:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_tree_height(root);
                 pause();
                 break;
             case 7:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
-                pause();
+                free_nodes(root);
                 break;
             case 8:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                input = get_number_dialog();
+                get_element_level(root, input);
                 pause();
                 break;
             default:
@@ -231,7 +303,7 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 8;
+    int menu_size = 9;
 
     string menu[menu_size] = {
         "Sair",
