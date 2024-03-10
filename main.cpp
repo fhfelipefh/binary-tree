@@ -69,6 +69,79 @@ void show_post_order(Tree *tree)
     cout << ">";
 }
 
+Tree* remove(Tree **pTree, int num)
+{
+    if(num < (*pTree)->info)
+        remove(&(*pTree)->stl, num);
+    else if(num > (*pTree)->info)
+        remove(&(*pTree)->str, num);
+    else
+    {
+        Tree *aux = *pTree;
+        if(((*pTree)->stl == NULL) && ((*pTree)->str == NULL))
+        {
+            delete(aux);
+            (*pTree) = NULL;
+        }
+        else if((*pTree)->stl == NULL)
+        {
+            (*pTree) = (*pTree)->str;
+            aux->str = NULL;
+            delete(aux);
+            aux = NULL;
+        }else if((*pTree)->str == NULL)
+        {
+            (*pTree) = (*pTree)->stl;
+            aux->stl = NULL;
+            delete(aux);
+            aux = NULL;
+        }
+        else
+        {
+            aux = (*pTree)->stl;
+            while(aux->str != NULL)
+            {
+                aux = aux->str;
+            }
+            (*pTree)->info = aux->info;
+            aux->info = num;
+            (*pTree)->stl = remove(&(*pTree)->stl, num);
+        }
+    }
+    return (*pTree);
+}
+
+int find_left_sub_tree_height(Tree *tree);
+int find_right_sub_tree_height(Tree *tree);
+
+int find_right_sub_tree_height(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    } else {
+        return max(find_left_sub_tree_height(tree->stl), find_right_sub_tree_height(tree->str)) + 1;
+    }
+}
+
+int find_left_sub_tree_height(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    } else {
+        return max(find_left_sub_tree_height(tree->stl), find_right_sub_tree_height(tree->str)) + 1;
+    }
+}
+
+int show_left_sub_tree_height(Tree *tree) {
+    int height = find_left_sub_tree_height(tree->stl);
+    cout << "Altura da sub-arvore esquerda: " << height << endl;
+    return height;
+}
+
+int show_right_sub_tree_height(Tree *tree) {
+    int height = find_right_sub_tree_height(tree->str);
+    cout << "Altura da sub-arvore direita: " << height << endl;
+    return height;
+}
+
 int get_number_dialog() {
     int num;
     cout << "Digite um numero: ";
@@ -96,15 +169,15 @@ void show_menu(string menu[], int size, Tree *root) {
         cin >> selectedOption;
         cout << endl;
 
-        int num = 0;
+        int input = 0;
         switch (selectedOption) {
             case 0:
                 break;
             case 1:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
-                num = get_number_dialog();
-                insert_in_tree(&root, num);
+                input = get_number_dialog();
+                insert_in_tree(&root, input);
                 break;
             case 2:
                 system("cls");
@@ -124,6 +197,28 @@ void show_menu(string menu[], int size, Tree *root) {
                 show_post_order(root);
                 pause();
                 break;
+            case 5:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_left_sub_tree_height(root);
+                show_right_sub_tree_height(root);
+                pause();
+                break;
+            case 6:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                pause();
+                break;
+            case 7:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                pause();
+                break;
+            case 8:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                pause();
+                break;
             default:
                 system("cls");
                 cout << "Opcao nao implementada. Tente novamente." << endl;
@@ -136,21 +231,25 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 5;
+    int menu_size = 8;
 
     string menu[menu_size] = {
         "Sair",
         "Incluir",
         "Mostrar pre-ordem",
         "Mostrar ordem simetrica",
-        "Mostrar pos-ordem"
+        "Mostrar pos-ordem",
+        "Encontrar a altura da sub-arvore esquerda e direita",
+        "Encontrar a altura da arvore",
+        "Limpar todos os nos da arvore, liberando as respectivas memorias",
+        "Dado um determinado valor, se o mesmo estiver contido na arvore encontrar o nivel que ele se encontra"
     };
 
     Tree *root = nullptr;
 
     show_menu(menu, menu_size, root);
 
-    cout << "Programa encerrado. Até mais!" << endl;
+    cout << "Programa encerrado. Goodbye!!!" << endl;
 
     return 0;
 }
