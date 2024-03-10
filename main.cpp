@@ -245,6 +245,155 @@ void show_max_number(Tree *tree) {
     cout << "O maior numero da arvore e: " << max << endl;
 }
 
+int sum_tree_numbers(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    }
+
+    return tree->info + sum_tree_numbers(tree->stl) + sum_tree_numbers(tree->str);
+}
+
+void show_sum_tree_numbers(Tree *tree) {
+    int sum = sum_tree_numbers(tree);
+    cout << "A soma de todos os numeros da arvore e: " << sum << endl;
+}
+
+int get_number_of_even_numbers(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    }
+
+    int count = 0;
+    if (tree->info % 2 == 0) {
+        count++;
+    }
+
+    return count + get_number_of_even_numbers(tree->stl) + get_number_of_even_numbers(tree->str);
+}
+
+int get_number_of_odd_numbers(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    }
+
+    int count = 0;
+    if (tree->info % 2 != 0) {
+        count++;
+    }
+
+    return count + get_number_of_odd_numbers(tree->stl) + get_number_of_odd_numbers(tree->str);
+}
+
+void show_number_of_even_numbers(Tree *tree) {
+    int count = get_number_of_even_numbers(tree);
+    cout << "A quantidade de numeros pares da arvore e: " << count << endl;
+}
+
+void show_number_of_odd_numbers(Tree *tree) {
+    int count = get_number_of_odd_numbers(tree);
+    cout << "A quantidade de numeros impares da arvore e: " << count << endl;
+}
+
+int get_number_of_leaves(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    }
+
+    if (tree->stl == NULL && tree->str == NULL) {
+        return 1;
+    }
+
+    return get_number_of_leaves(tree->stl) + get_number_of_leaves(tree->str);
+}
+
+void show_number_of_leaves(Tree *tree) {
+    int count = get_number_of_leaves(tree);
+    cout << "A quantidade de folhas da arvore e: " << count << endl;
+}
+
+int get_number_of_nodes_just_one_child(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    }
+
+    if (tree->stl == NULL && tree->str != NULL) {
+        return 1 + get_number_of_nodes_just_one_child(tree->str);
+    }
+
+    if (tree->stl != NULL && tree->str == NULL) {
+        return 1 + get_number_of_nodes_just_one_child(tree->stl);
+    }
+
+    return get_number_of_nodes_just_one_child(tree->stl) + get_number_of_nodes_just_one_child(tree->str);
+}
+
+void show_number_of_nodes_just_one_child(Tree *tree) {
+    int count = get_number_of_nodes_just_one_child(tree);
+    cout << "A quantidade de nos com apenas um filho e: " << count << endl;
+}
+
+int get_number_of_nodes_two_children(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    }
+
+    if (tree->stl != NULL && tree->str != NULL) {
+        return 1 + get_number_of_nodes_two_children(tree->stl) + get_number_of_nodes_two_children(tree->str);
+    }
+
+    return get_number_of_nodes_two_children(tree->stl) + get_number_of_nodes_two_children(tree->str);
+}
+
+void show_number_of_nodes_two_children(Tree *tree) {
+    int count = get_number_of_nodes_two_children(tree);
+    cout << "A quantidade de nos com dois filhos e: " << count << endl;
+}
+
+int get_number_of_nodes(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    }
+
+    return 1 + get_number_of_nodes(tree->stl) + get_number_of_nodes(tree->str);
+}
+
+void show_number_of_nodes(Tree *tree) {
+    int count = get_number_of_nodes(tree);
+    cout << "A quantidade de nos da arvore e: " << count << endl;
+}
+
+bool is_complete_recursive(Tree* root, int level, int height) {
+    if (root == nullptr) {
+        return true;
+    }
+
+    if (level == height) {
+        return (root->stl == nullptr && root->str == nullptr);
+    }
+
+    if (!root->stl || !root->str) {
+        return false;
+    }
+
+    return is_complete_recursive(root->stl, level + 1, height) &&
+           is_complete_recursive(root->str, level + 1, height);
+}
+
+void show_if_tree_is_complete(Tree *tree) {
+    if (tree == nullptr) {
+        cout << "A arvore esta vazia" << endl;
+        return;
+    }
+
+    int h = find_tree_height(tree);
+    bool completa = is_complete_recursive(tree, 1, h);
+
+    if (completa)
+        cout << "A arvore e completa" << endl;
+    else
+        cout << "A arvore nao e completa" << endl;
+}
+
 int get_number_dialog() {
     int num;
     string input;
@@ -357,34 +506,42 @@ void show_menu(string menu[], int size, Tree *root) {
             case 12:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_sum_tree_numbers(root);
                 break;
             case 13:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_number_of_even_numbers(root);
                 break;
             case 14:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_number_of_odd_numbers(root);
                 break;
             case 15:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_number_of_leaves(root);
                 break;
             case 16:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_number_of_nodes_just_one_child(root);
                 break;
             case 17:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_number_of_nodes_two_children(root);
                 break;
             case 18:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_number_of_nodes(root);
                 break;
             case 19:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_if_tree_is_complete(root);
                 break;
             case 20:
                 system("cls");
