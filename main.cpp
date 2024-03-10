@@ -198,6 +198,53 @@ int get_element_level(Tree *tree, int num) {
     return -1;
 }
 
+void mirror_tree(Tree* &tree) {
+    if (tree == NULL) {
+        return;
+    }
+
+    Tree* temp = tree->stl;
+    tree->stl = tree->str;
+    tree->str = temp;
+
+    mirror_tree(tree->stl);
+    mirror_tree(tree->str);
+}
+
+int find_min_number(Tree *tree) {
+    if (tree == NULL) {
+        return -1;
+    }
+
+    if (tree->stl == NULL) {
+        return tree->info;
+    }
+
+    return find_min_number(tree->stl);
+}
+
+void show_min_number(Tree *tree) {
+    int min = find_min_number(tree);
+    cout << "O menor numero da arvore e: " << min << endl;
+}
+
+int find_max_number(Tree *tree) {
+    if (tree == NULL) {
+        return -1;
+    }
+
+    if (tree->str == NULL) {
+        return tree->info;
+    }
+
+    return find_max_number(tree->str);
+}
+
+void show_max_number(Tree *tree) {
+    int max = find_max_number(tree);
+    cout << "O maior numero da arvore e: " << max << endl;
+}
+
 int get_number_dialog() {
     int num;
     string input;
@@ -291,6 +338,74 @@ void show_menu(string menu[], int size, Tree *root) {
                 get_element_level(root, input);
                 pause();
                 break;
+            case 9:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                mirror_tree(root);
+                pause();
+                break;
+            case 10:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_min_number(root);
+                break;
+            case 11:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                show_max_number(root);
+                break;
+            case 12:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 13:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 14:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 15:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 16:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 17:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 18:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 19:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 20:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 21:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 22:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 23:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
+            case 24:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
             default:
                 system("cls");
                 cout << "Opcao nao implementada. Tente novamente." << endl;
@@ -303,7 +418,7 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 9;
+    int menu_size = 22;
 
     string menu[menu_size] = {
         "Sair",
@@ -314,7 +429,21 @@ int main()
         "Encontrar a altura da sub-arvore esquerda e direita",
         "Encontrar a altura da arvore",
         "Limpar todos os nos da arvore, liberando as respectivas memorias",
-        "Dado um determinado valor, se o mesmo estiver contido na arvore encontrar o nivel que ele se encontra"
+        "Dado um determinado valor, se o mesmo estiver contido na arvore encontrar o nivel que ele se encontra",
+        "Espelhar a arvore binaria",
+        "Obter o menor numero da arvore",
+        "Obter o maior numero da arvore"
+        "Soma de todos os numeros da arvore",
+        "Quantidade de numeros pares da arvore",
+        "Quantidade de numeros impares da arvore",
+        "Quantidade de folhas da arvore",
+        "Quantidade de nos com apenas um filho",
+        "Quantidade de nos com dois filhos",
+        "Quantidade de nos da arvore",
+        "Verificar se a arvore e completa",
+        "Verificar se a arvore e cheia",
+        "Verificar se a arvore e balanceada",
+        "Verificar se a arvore e degenerada",
     };
 
     Tree *root = nullptr;
