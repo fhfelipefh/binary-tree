@@ -137,18 +137,31 @@ int find_left_sub_tree_height(Tree *tree) {
 }
 
 int show_left_sub_tree_height(Tree *tree) {
+    if(is_empty_tree(tree))
+    {
+        return 0;
+    }
     int height = find_left_sub_tree_height(tree->stl);
     cout << "Altura da sub-arvore esquerda: " << height << endl;
     return height;
 }
 
 int show_right_sub_tree_height(Tree *tree) {
+    if(is_empty_tree(tree))
+    {
+        return 0;
+    }
     int height = find_right_sub_tree_height(tree->str);
     cout << "Altura da sub-arvore direita: " << height << endl;
     return height;
 }
 
 int find_tree_height(Tree *tree) {
+    if(is_empty_tree(tree))
+    {
+        return 0;
+    }
+
     if (tree == nullptr) {
         return 0;
     } else {
@@ -163,7 +176,7 @@ void show_tree_height(Tree *tree) {
     cout << "Altura da arvore: " << height << endl;
 }
 
-void free_nodes(Tree *tree) {
+void free_nodes(Tree* &tree) {
     if (tree == NULL) {
         return;
     }
@@ -176,6 +189,9 @@ void free_nodes(Tree *tree) {
 
     tree->stl = NULL;
     tree->str = NULL;
+
+    delete tree;
+    tree = NULL;
 }
 
 int get_element_level(Tree *tree, int num) {
@@ -224,6 +240,10 @@ int find_min_number(Tree *tree) {
 }
 
 void show_min_number(Tree *tree) {
+    if(is_empty_tree(tree))
+    {
+        return;
+    }
     int min = find_min_number(tree);
     cout << "O menor numero da arvore e: " << min << endl;
 }
@@ -497,51 +517,61 @@ void show_menu(string menu[], int size, Tree *root) {
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_min_number(root);
+                pause();
                 break;
             case 11:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_max_number(root);
+                pause();
                 break;
             case 12:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_sum_tree_numbers(root);
+                pause();
                 break;
             case 13:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_number_of_even_numbers(root);
+                pause();
                 break;
             case 14:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_number_of_odd_numbers(root);
+                pause();
                 break;
             case 15:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_number_of_leaves(root);
+                pause();
                 break;
             case 16:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_number_of_nodes_just_one_child(root);
+                pause();
                 break;
             case 17:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_number_of_nodes_two_children(root);
+                pause();
                 break;
             case 18:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_number_of_nodes(root);
+                pause();
                 break;
             case 19:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 show_if_tree_is_complete(root);
+                pause();
                 break;
             case 20:
                 system("cls");
