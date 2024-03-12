@@ -176,9 +176,9 @@ void show_tree_height(Tree *tree) {
     cout << "Altura da arvore: " << height << endl;
 }
 
-void free_nodes(Tree* &tree) {
+Tree* free_nodes(Tree* &tree) {
     if (tree == NULL) {
-        return;
+        return tree;
     }
 
     free_nodes(tree->stl);
@@ -192,6 +192,7 @@ void free_nodes(Tree* &tree) {
 
     delete tree;
     tree = NULL;
+    return tree;
 }
 
 int get_element_level(Tree *tree, int num) {
@@ -498,7 +499,7 @@ void show_menu(string menu[], int size, Tree *root) {
             case 7:
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
-                free_nodes(root);
+                root = free_nodes(root);
                 break;
             case 8:
                 system("cls");
