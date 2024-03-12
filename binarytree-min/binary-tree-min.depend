@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1710253885 source:c:\users\20201pf.cc0181\downloads\binary-tree-min\main.cpp
+	<iostream>
+	<windows.h>
+	<locale>
+	<limits>
+	<algorithm>
+	<sstream>
+	<string>
+	<cctype>
+	<fstream>
+
