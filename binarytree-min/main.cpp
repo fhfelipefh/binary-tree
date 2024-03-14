@@ -251,9 +251,6 @@ void processInputLine(Tree *tree, string action, int value)
 {
     int declaredOperation = 0;
 
-    cout << action << endl;
-    cout << value << endl;
-
     if (action == "inserir")
     {
         declaredOperation = 1;
@@ -271,10 +268,14 @@ void processInputLine(Tree *tree, string action, int value)
     switch (declaredOperation)
     {
     case 1:
+        cout << action << value << endl;
         insert_in_tree(&tree, value);
         break;
     case 2:
-        // remove_tree_item(&tree, value);
+        if (!is_empty_tree(tree))
+        {
+            remove_tree_item(&tree, value);
+        }
         break;
     default:
         cout << "Nao implementado" << endl;
