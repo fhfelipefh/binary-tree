@@ -251,6 +251,7 @@ void processInputLine(Tree *tree, string action, int value) {
         {
         case "inserir":
             break;
+        case "remover":
         default:
             break;
         }
