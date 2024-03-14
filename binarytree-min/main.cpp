@@ -438,7 +438,7 @@ void show_menu(string menu[], int size, Tree *root)
         case 9:
             system("cls");
             cout << "--- " << menu[selectedOption] << " ---" << endl;
-            show_file_process_result(root, "entrada.txt");
+            show_file_process_result(&root, "entrada.txt");
             pause();
             break;
         default:
