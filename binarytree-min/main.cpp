@@ -19,9 +19,9 @@ struct Tree
 
 int is_empty_tree(Tree *tree)
 {
-    if(tree == NULL)
+    if (tree == NULL)
         return 1;
-    if(tree->info == NULL)
+    if (tree->info == NULL)
         return 1;
     return 0;
 }
@@ -48,7 +48,7 @@ void insert_in_tree(Tree **pTree, int num)
 void show_pre_order(Tree *tree)
 {
     cout << "<";
-    if(!is_empty_tree(tree))
+    if (!is_empty_tree(tree))
     {
         cout << tree->info;
         show_pre_order(tree->stl);
@@ -60,7 +60,7 @@ void show_pre_order(Tree *tree)
 void show_in_simetric_order(Tree *tree)
 {
     cout << "<";
-    if(!is_empty_tree(tree))
+    if (!is_empty_tree(tree))
     {
         show_in_simetric_order(tree->stl);
         cout << tree->info;
@@ -72,7 +72,7 @@ void show_in_simetric_order(Tree *tree)
 void show_post_order(Tree *tree)
 {
     cout << "<";
-    if(!is_empty_tree(tree))
+    if (!is_empty_tree(tree))
     {
         show_post_order(tree->stl);
         show_post_order(tree->str);
@@ -81,50 +81,51 @@ void show_post_order(Tree *tree)
     cout << ">";
 }
 
-Tree* remove(Tree **pTree, int num)
+Tree *remove_tree_item(Tree **pTree, int num)
 {
-    if(num < (*pTree)->info)
-        remove(&(*pTree)->stl, num);
-    else if(num > (*pTree)->info)
-        remove(&(*pTree)->str, num);
+    if (num < (*pTree)->info)
+        remove_tree_item(&(*pTree)->stl, num);
+    else if (num > (*pTree)->info)
+        remove_tree_item(&(*pTree)->str, num);
     else
     {
         Tree *aux = *pTree;
-        if(((*pTree)->stl == NULL) && ((*pTree)->str == NULL))
+        if (((*pTree)->stl == NULL) && ((*pTree)->str == NULL))
         {
-            delete(aux);
+            delete (aux);
             (*pTree) = NULL;
         }
-        else if((*pTree)->stl == NULL)
+        else if ((*pTree)->stl == NULL)
         {
             (*pTree) = (*pTree)->str;
             aux->str = NULL;
-            delete(aux);
+            delete (aux);
             aux = NULL;
         }
-        else if((*pTree)->str == NULL)
+        else if ((*pTree)->str == NULL)
         {
             (*pTree) = (*pTree)->stl;
             aux->stl = NULL;
-            delete(aux);
+            delete (aux);
             aux = NULL;
         }
         else
         {
             aux = (*pTree)->stl;
-            while(aux->str != NULL)
+            while (aux->str != NULL)
             {
                 aux = aux->str;
             }
             (*pTree)->info = aux->info;
             aux->info = num;
-            (*pTree)->stl = remove(&(*pTree)->stl, num);
+            (*pTree)->stl = remove_tree_item(&(*pTree)->stl, num);
         }
     }
     return (*pTree);
 }
 
 int find_left_sub_tree_height(Tree *tree);
+
 int find_right_sub_tree_height(Tree *tree);
 
 int find_right_sub_tree_height(Tree *tree)
@@ -153,7 +154,7 @@ int find_left_sub_tree_height(Tree *tree)
 
 int show_left_sub_tree_height(Tree *tree)
 {
-    if(is_empty_tree(tree))
+    if (is_empty_tree(tree))
     {
         return 0;
     }
@@ -164,7 +165,7 @@ int show_left_sub_tree_height(Tree *tree)
 
 int show_right_sub_tree_height(Tree *tree)
 {
-    if(is_empty_tree(tree))
+    if (is_empty_tree(tree))
     {
         return 0;
     }
@@ -175,7 +176,7 @@ int show_right_sub_tree_height(Tree *tree)
 
 int find_tree_height(Tree *tree)
 {
-    if(is_empty_tree(tree))
+    if (is_empty_tree(tree))
     {
         return 0;
     }
@@ -198,7 +199,7 @@ void show_tree_height(Tree *tree)
     cout << "Altura da arvore: " << height << endl;
 }
 
-Tree* free_nodes(Tree* &tree)
+Tree *free_nodes(Tree *&tree)
 {
     if (tree == NULL)
     {
@@ -246,15 +247,39 @@ int get_element_level(Tree *tree, int num)
     return -1;
 }
 
-void processInputLine(Tree *tree, string action, int value) {
-        switch (action)
-        {
-        case "inserir":
-            break;
-        case "remover":
-        default:
-            break;
-        }
+void processInputLine(Tree *tree, string action, int value)
+{
+    int declaredOperation = 0;
+
+    cout << action << endl;
+    cout << value << endl;
+
+    if (action == "inserir")
+    {
+        declaredOperation = 1;
+    }
+    else if (action == "remover")
+    {
+        declaredOperation = 2;
+    }
+    else
+    {
+        cout << "Operacao nao reconhecida" << endl;
+        return;
+    }
+
+    switch (declaredOperation)
+    {
+    case 1:
+        insert_in_tree(&tree, value);
+        break;
+    case 2:
+        // remove_tree_item(&tree, value);
+        break;
+    default:
+        cout << "Nao implementado" << endl;
+        break;
+    }
 }
 
 string processInputFile(Tree *tree, string file_name)
@@ -270,7 +295,11 @@ string processInputFile(Tree *tree, string file_name)
         string line;
         while (getline(file, line))
         {
-            cout << line << endl;
+            string action;
+            int value;
+            stringstream ss(line);
+            ss >> action >> value;
+            processInputLine(tree, action, value);
         }
     }
 
