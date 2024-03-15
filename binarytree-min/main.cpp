@@ -247,7 +247,7 @@ int get_element_level(Tree *tree, int num)
     return -1;
 }
 
-void processInputLine(Tree *tree, string action, int value)
+void processInputLine(Tree **tree, string action, int value)
 {
     int declaredOperation = 0;
 
@@ -269,12 +269,12 @@ void processInputLine(Tree *tree, string action, int value)
     {
     case 1:
         cout << action << value << endl;
-        insert_in_tree(&tree, value);
+        insert_in_tree(tree, value);
         break;
     case 2:
-        if (!is_empty_tree(tree))
+        if (tree != NULL)
         {
-            remove_tree_item(&tree, value);
+            remove_tree_item(tree, value);
         }
         break;
     default:
@@ -283,7 +283,7 @@ void processInputLine(Tree *tree, string action, int value)
     }
 }
 
-string processInputFile(Tree *tree, string file_name)
+string processInputFile(Tree **tree, string file_name)
 {
     ifstream file(file_name);
 
@@ -309,7 +309,7 @@ string processInputFile(Tree *tree, string file_name)
     return "\nProcessamento finalizado";
 }
 
-string show_file_process_result(Tree *tree, string file_name)
+string show_file_process_result(Tree **tree, string file_name)
 {
     string process_result = processInputFile(tree, file_name);
     cout << process_result << endl;
