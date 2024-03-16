@@ -404,31 +404,40 @@ void show_if_tree_is_complete(Tree *tree)
     }
 }
 
-void print_tree_using_paragraph(Tree *tree, string prefix = "") {
-    if (tree == NULL) {
+void print_tree_using_paragraph(Tree *tree, string prefix_char = "")
+{
+    if (tree == NULL)
+    {
         return;
     }
 
-    cout << prefix << tree->info << endl;
+    cout << prefix_char << tree->info << endl;
 
-    if (tree->stl != NULL) {
-        print_tree_using_paragraph(tree->stl, prefix + ".");
+    if (tree->stl != NULL)
+    {
+        print_tree_using_paragraph(tree->stl, prefix_char + ".");
     }
 
-    if (tree->str != NULL) {
-        print_tree_using_paragraph(tree->str, prefix + ".");
+    if (tree->str != NULL)
+    {
+        print_tree_using_paragraph(tree->str, prefix_char + ".");
     }
 }
 
-
 void show_tree_using_paragraph(Tree *tree)
 {
-  if (tree == NULL) {
-    cout << "Arvore vazia!" << endl;
-    return;
-  }
+    if (tree == NULL)
+    {
+        cout << "Arvore vazia!" << endl;
+        return;
+    }
 
-  print_tree_using_paragraph(tree);
+    print_tree_using_paragraph(tree);
+}
+
+void show_tree_in_matrix(Tree *tree)
+{
+    cout << "Nao foi abordado em aula ainda!" << endl;
 }
 
 int get_number_dialog()
@@ -564,9 +573,16 @@ void show_menu(string menu[], int size, Tree *root)
             show_tree_using_paragraph(root);
             pause();
             break;
+        case 14:
+            system("cls");
+            cout << "--- " << menu[selectedOption] << " ---" << endl;
+            show_tree_in_matrix(root);
+            pause();
+            break;
         default:
             system("cls");
             cout << "Opcao nao implementada. Tente novamente." << endl;
+            pause();
             break;
         }
     }
@@ -576,7 +592,7 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 14;
+    int menu_size = 15;
 
     string menu[menu_size] =
     {
@@ -593,7 +609,8 @@ int main()
         "Apresentar o total de elementos folhas existentes na arvore",
         "Mostrar o maior nivel existente na arvore",
         "Verificar se a arvore e uma arvore completa, exibindo uma mensagem com tal informacao",
-        "Exibir a arvore usando paragrafacao"
+        "Exibir a arvore usando paragrafacao",
+        "Exibir a arvore usando uma matriz, conforme modelos trabalhados em aula, sendo que o elemento raiz deve estar no indice zero e quando nao tiver elemento deve aparecer -1 indicando um indice invalido."
     };
 
     Tree *root = nullptr;
