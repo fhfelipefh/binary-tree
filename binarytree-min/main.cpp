@@ -331,25 +331,31 @@ void show_number_of_nodes(Tree *tree)
     cout << "A quantidade de nos da arvore e: " << count << endl;
 }
 
-int get_number_of_leaves(Tree *tree) {
-    if (tree == NULL) {
+int get_number_of_leaves(Tree *tree)
+{
+    if (tree == NULL)
+    {
         return 0;
     }
 
-    if (tree->stl == NULL && tree->str == NULL) {
+    if (tree->stl == NULL && tree->str == NULL)
+    {
         return 1;
     }
 
     return get_number_of_leaves(tree->stl) + get_number_of_leaves(tree->str);
 }
 
-void show_number_of_leaves(Tree *tree) {
+void show_number_of_leaves(Tree *tree)
+{
     int count = get_number_of_leaves(tree);
     cout << "A quantidade de folhas da arvore e: " << count << endl;
 }
 
-int get_max_level_in_tree(Tree *tree) {
-    if (tree == NULL) {
+int get_max_level_in_tree(Tree *tree)
+{
+    if (tree == NULL)
+    {
         return -1;
     }
 
@@ -359,9 +365,42 @@ int get_max_level_in_tree(Tree *tree) {
     return max(left_level, right_level) + 1;
 }
 
-void show_max_level_in_tree(Tree *tree) {
+void show_max_level_in_tree(Tree *tree)
+{
     int max_level = get_max_level_in_tree(tree);
     cout << "O maior nivel na arvore é: " << max_level << endl;
+}
+
+bool is_complete_tree(Tree* tree)
+{
+    if (tree == NULL) {
+       return true;
+    }
+
+    int left_height = find_tree_height(tree->stl);
+    int right_height = find_tree_height(tree->str);
+
+    if (left_height == right_height)
+    {
+        return is_complete_tree(tree->stl) && is_complete_tree(tree->str);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void show_if_tree_is_complete(Tree *tree)
+{
+    bool is_complete = is_complete_tree(tree);
+    if (is_complete)
+    {
+        cout << "Arvore e completa." << endl;
+    }
+    else
+    {
+        cout << "Arvore nao e completa." << endl;
+    }
 }
 
 int get_number_dialog()
@@ -485,6 +524,12 @@ void show_menu(string menu[], int size, Tree *root)
             show_max_level_in_tree(root);
             pause();
             break;
+        case 12:
+            system("cls");
+            cout << "--- " << menu[selectedOption] << " ---" << endl;
+            show_if_tree_is_complete(root);
+            pause();
+            break;
         default:
             system("cls");
             cout << "Opcao nao implementada. Tente novamente." << endl;
@@ -497,7 +542,7 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 13;
+    int menu_size = 14;
 
     string menu[menu_size] =
     {
@@ -513,7 +558,8 @@ int main()
         "Processar arquivo entrada.txt",
         "Apresentar o total de elementos folhas existentes na arvore",
         "Mostrar o maior nivel existente na arvore",
-        "Verificar se a arvore e uma arvore completa, exibindo uma mensagem com tal informacao"
+        "Verificar se a arvore e uma arvore completa, exibindo uma mensagem com tal informacao",
+        "Exibir a árvore usando paragrafação"
     };
 
     Tree *root = nullptr;
