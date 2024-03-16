@@ -411,19 +411,8 @@ void show_tree_using_paragraph(Tree *tree)
     return;
   }
 
-  cout << tree->info << endl;
 
-  for (int i = 0; i < tree->level; ++i) {
-    cout << "  ";
-  }
 
-  print_paragraph(tree->stl,
-
-  for (int i = 0; i < tree->level; ++i) {
-    cout << "  ";
-  }
-
-  print_paragraph(tree->str, tree->level + 1);
 }
 
 int get_number_dialog()
@@ -588,7 +577,7 @@ int main()
         "Apresentar o total de elementos folhas existentes na arvore",
         "Mostrar o maior nivel existente na arvore",
         "Verificar se a arvore e uma arvore completa, exibindo uma mensagem com tal informacao",
-        "Exibir a �rvore usando paragrafa��o"
+        "Exibir a arvore usando paragrafacao"
     };
 
     Tree *root = nullptr;
