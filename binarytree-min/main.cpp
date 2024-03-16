@@ -404,6 +404,23 @@ void show_if_tree_is_complete(Tree *tree)
     }
 }
 
+void print_tree_using_paragraph(Tree *tree, string prefix = "") {
+    if (tree == NULL) {
+        return;
+    }
+
+    cout << prefix << tree->info << endl;
+
+    if (tree->stl != NULL) {
+        print_tree_using_paragraph(tree->stl, prefix + ".");
+    }
+
+    if (tree->str != NULL) {
+        print_tree_using_paragraph(tree->str, prefix + ".");
+    }
+}
+
+
 void show_tree_using_paragraph(Tree *tree)
 {
   if (tree == NULL) {
@@ -411,8 +428,7 @@ void show_tree_using_paragraph(Tree *tree)
     return;
   }
 
-
-
+  print_tree_using_paragraph(tree);
 }
 
 int get_number_dialog()
