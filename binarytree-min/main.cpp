@@ -368,13 +368,14 @@ int get_max_level_in_tree(Tree *tree)
 void show_max_level_in_tree(Tree *tree)
 {
     int max_level = get_max_level_in_tree(tree);
-    cout << "O maior nivel na arvore é: " << max_level << endl;
+    cout << "O maior nivel na arvore ï¿½: " << max_level << endl;
 }
 
 bool is_complete_tree(Tree* tree)
 {
-    if (tree == NULL) {
-       return true;
+    if (tree == NULL)
+    {
+        return true;
     }
 
     int left_height = find_tree_height(tree->stl);
@@ -401,6 +402,28 @@ void show_if_tree_is_complete(Tree *tree)
     {
         cout << "Arvore nao e completa." << endl;
     }
+}
+
+void show_tree_using_paragraph(Tree *tree)
+{
+  if (tree == NULL) {
+    cout << "Arvore vazia!" << endl;
+    return;
+  }
+
+  cout << tree->info << endl;
+
+  for (int i = 0; i < tree->level; ++i) {
+    cout << "  ";
+  }
+
+  print_paragraph(tree->stl,
+
+  for (int i = 0; i < tree->level; ++i) {
+    cout << "  ";
+  }
+
+  print_paragraph(tree->str, tree->level + 1);
 }
 
 int get_number_dialog()
@@ -530,6 +553,12 @@ void show_menu(string menu[], int size, Tree *root)
             show_if_tree_is_complete(root);
             pause();
             break;
+        case 13:
+            system("cls");
+            cout << "--- " << menu[selectedOption] << " ---" << endl;
+            show_tree_using_paragraph(root);
+            pause();
+            break;
         default:
             system("cls");
             cout << "Opcao nao implementada. Tente novamente." << endl;
@@ -559,7 +588,7 @@ int main()
         "Apresentar o total de elementos folhas existentes na arvore",
         "Mostrar o maior nivel existente na arvore",
         "Verificar se a arvore e uma arvore completa, exibindo uma mensagem com tal informacao",
-        "Exibir a árvore usando paragrafação"
+        "Exibir a ï¿½rvore usando paragrafaï¿½ï¿½o"
     };
 
     Tree *root = nullptr;
