@@ -415,6 +415,8 @@ void show_if_tree_is_complete(Tree *tree) {
         cout << "A arvore nao e completa" << endl;
 }
 
+
+
 int get_number_dialog() {
     int num;
     string input;
@@ -594,6 +596,10 @@ void show_menu(string menu[], int size, Tree *root) {
                 system("cls");
                 cout << "--- " << menu[selectedOption] << " ---" << endl;
                 break;
+            case 25:
+                system("cls");
+                cout << "--- " << menu[selectedOption] << " ---" << endl;
+                break;
             default:
                 system("cls");
                 cout << "Opcao nao implementada. Tente novamente." << endl;
@@ -606,7 +612,7 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 22;
+    int menu_size = 23;
 
     string menu[menu_size] = {
         "Sair",
@@ -632,6 +638,7 @@ int main()
         "Verificar se a arvore e cheia",
         "Verificar se a arvore e balanceada",
         "Verificar se a arvore e degenerada",
+        "Mostrar o maior nível existente na árvore"
     };
 
     Tree *root = nullptr;

@@ -268,7 +268,6 @@ void processInputLine(Tree **tree, string action, int value)
     switch (declaredOperation)
     {
     case 1:
-        cout << action << value << endl;
         insert_in_tree(tree, value);
         break;
     case 2:
@@ -330,6 +329,39 @@ void show_number_of_nodes(Tree *tree)
 {
     int count = get_number_of_nodes(tree);
     cout << "A quantidade de nos da arvore e: " << count << endl;
+}
+
+int get_number_of_leaves(Tree *tree) {
+    if (tree == NULL) {
+        return 0;
+    }
+
+    if (tree->stl == NULL && tree->str == NULL) {
+        return 1;
+    }
+
+    return get_number_of_leaves(tree->stl) + get_number_of_leaves(tree->str);
+}
+
+void show_number_of_leaves(Tree *tree) {
+    int count = get_number_of_leaves(tree);
+    cout << "A quantidade de folhas da arvore e: " << count << endl;
+}
+
+int get_max_level_in_tree(Tree *tree) {
+    if (tree == NULL) {
+        return -1;
+    }
+
+    int left_level = get_max_level_in_tree(tree->stl);
+    int right_level = get_max_level_in_tree(tree->str);
+
+    return max(left_level, right_level) + 1;
+}
+
+void show_max_level_in_tree(Tree *tree) {
+    int max_level = get_max_level_in_tree(tree);
+    cout << "O maior nivel na arvore é: " << max_level << endl;
 }
 
 int get_number_dialog()
@@ -441,6 +473,18 @@ void show_menu(string menu[], int size, Tree *root)
             show_file_process_result(&root, "entrada.txt");
             pause();
             break;
+        case 10:
+            system("cls");
+            cout << "--- " << menu[selectedOption] << " ---" << endl;
+            show_number_of_leaves(root);
+            pause();
+            break;
+        case 11:
+            system("cls");
+            cout << "--- " << menu[selectedOption] << " ---" << endl;
+            show_max_level_in_tree(root);
+            pause();
+            break;
         default:
             system("cls");
             cout << "Opcao nao implementada. Tente novamente." << endl;
@@ -453,7 +497,7 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 10;
+    int menu_size = 13;
 
     string menu[menu_size] =
     {
@@ -466,7 +510,10 @@ int main()
         "Encontrar a altura da arvore",
         "Limpar todos os nos da arvore, liberando as respectivas memorias",
         "Dado um determinado valor, se o mesmo estiver contido na arvore encontrar o nivel que ele se encontra",
-        "Processar arquivo entrada.txt"
+        "Processar arquivo entrada.txt",
+        "Apresentar o total de elementos folhas existentes na arvore",
+        "Mostrar o maior nivel existente na arvore",
+        "Verificar se a arvore e uma arvore completa, exibindo uma mensagem com tal informacao"
     };
 
     Tree *root = nullptr;
