@@ -7,6 +7,7 @@
 #include <string>
 #include <cctype>
 #include <fstream>
+#include <cmath>
 
 using namespace std;
 
@@ -435,9 +436,53 @@ void show_tree_using_paragraph(Tree *tree)
     print_tree_using_paragraph(tree);
 }
 
+void print_tree_in_matrix(Tree *node, int index, int max_index)
+{
+    if (index > max_index || node == NULL)
+    {
+        return;
+    }
+
+    cout << index << "\t" << node->info << "\t";
+
+    if (node->stl != NULL)
+    {
+        cout << 2*index + 1 << "\t";
+    }
+    else
+    {
+        cout << "-1\t";
+    }
+
+    if (node->str != NULL)
+    {
+        cout << 2*index + 2 << "\t";
+    }
+    else
+    {
+        cout << "-1\t";
+    }
+
+    cout << endl;
+
+    print_tree_in_matrix(node->stl, 2*index + 1, max_index);
+    print_tree_in_matrix(node->str, 2*index + 2, max_index);
+}
+
 void show_tree_in_matrix(Tree *tree)
 {
-    cout << "Nao foi abordado em aula ainda!" << endl;
+    if (tree == NULL)
+    {
+        cout << "Arvore vazia!" << endl;
+        return;
+    }
+
+    int tree_height = find_tree_height(tree);
+    int max_index = pow(2, tree_height) - 1;
+
+    cout << "indice\t" << "info\t" << "esquerda\t" << "direita\t" << endl;
+
+    print_tree_in_matrix(tree, 0, max_index);
 }
 
 int get_number_dialog()
