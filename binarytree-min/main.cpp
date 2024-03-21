@@ -436,9 +436,11 @@ void show_tree_using_paragraph(Tree *tree)
     print_tree_using_paragraph(tree);
 }
 
-void print_tree_in_matrix(Tree *node, int index, int max_index)
+void print_tree_in_matrix(int actual_index, Tree *node, int index, int max_index)
 {
-    if (index > max_index || node == NULL)
+    actual_index = actual_index + 1;
+
+    if (node == NULL)
     {
         return;
     }
@@ -465,8 +467,8 @@ void print_tree_in_matrix(Tree *node, int index, int max_index)
 
     cout << endl;
 
-    print_tree_in_matrix(node->stl, 2*index + 1, max_index);
-    print_tree_in_matrix(node->str, 2*index + 2, max_index);
+    print_tree_in_matrix(actual_index, node->stl, 2*index + 1, max_index);
+    print_tree_in_matrix(actual_index, node->str, 2*index + 2, max_index);
 }
 
 void show_tree_in_matrix(Tree *tree)
@@ -482,7 +484,8 @@ void show_tree_in_matrix(Tree *tree)
 
     cout << "indice\t" << "info\t" << "esquerda\t" << "direita\t" << endl;
 
-    print_tree_in_matrix(tree, 0, max_index);
+    int actual_index = 0;
+    print_tree_in_matrix(actual_index, tree, 0, max_index);
 }
 
 int get_number_dialog()
