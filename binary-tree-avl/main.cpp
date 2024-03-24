@@ -80,18 +80,6 @@ void show_post_order(Tree *tree)
     cout << ">";
 }
 
-void show_factor(Tree *root)
-{
-    cout << "<";
-    if(!is_empty_tree(root))
-    {
-        show_factor(root->stl);
-        cout << root->info << "-" << root->fb << "-";
-        show_factor(root->str);
-    }
-    cout << ">";
-}
-
 Tree* remove_node(Tree **pTree, int num)
 {
     if(*pTree == NULL)
@@ -347,6 +335,18 @@ Tree *free_nodes(Tree *&tree)
     return tree;
 }
 
+void show_with_factor(Tree *root)
+{
+    cout << "<";
+    if(!is_empty_tree(root))
+    {
+        show_factor(root->stl);
+        cout << root->info << "(" << root->fb << ")";
+        show_factor(root->str);
+    }
+    cout << ">";
+}
+
 void pause()
 {
     cout << "\n" << endl;
@@ -436,6 +436,12 @@ void show_menu(string menu[], int size, Tree *root)
             cout << "Altura da arvore: " << tree_height(root) << endl;
             pause();
             break;
+        case 8:
+            system("cls");
+            cout << "--- " << menu[selectedOption] << " ---" << endl;
+            show_with_factor(root);
+            pause();
+            break;
         default:
             system("cls");
             cout << "Opcao nao implementada. Tente novamente." << endl;
@@ -448,7 +454,7 @@ main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 8;
+    int menu_size = 9;
 
     string menu[menu_size] =
     {
@@ -460,6 +466,7 @@ main()
         "Excluir um valor (informar valor)",
         "Limpar Arvore",
         "Altura da Arvore",
+        "Mostra fator",
     };
 
     Tree *root = NULL;
