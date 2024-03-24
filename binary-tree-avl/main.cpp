@@ -134,7 +134,6 @@ Tree* remove_node(Tree **pTree, int num)
             aux->info = num;
             (*pTree)->stl = remove_node(&(*pTree)->stl, num);
         }
-        cout << "Elemento removido com sucesso.";
     }
     return *pTree;
 }
@@ -419,6 +418,11 @@ void show_menu(string menu[], int size, Tree *root)
             input = get_number_dialog();
             root = remove_node(&root, input);
             calc_fb(root);
+            if(verify_avl_balance(root) != 0)
+            {
+                root = balance_tree_node(root);
+                calc_fb(root);
+            }
             pause();
             break;
         case 6:
