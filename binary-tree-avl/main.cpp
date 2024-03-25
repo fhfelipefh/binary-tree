@@ -734,6 +734,85 @@ double calculate_tree_average(Tree *root) {
     return static_cast<double>(sum) / count;
 }
 
+void swap_subtrees(Tree *root) {
+    if (root == NULL) {
+        return;
+    }
+    // Troca as subárvores esquerda e direita
+    Tree *temp = root->stl;
+    root->stl = root->str;
+    root->str = temp;
+    // Chama a função recursivamente para as subárvores
+    swap_subtrees(root->stl);
+    swap_subtrees(root->str);
+}
+
+Tree* find_parent(Tree* root, int value) {
+    if (root == NULL || root->info == value) {
+        return NULL; // O nó não tem pai ou é a raiz
+    }
+    if ((root->stl != NULL && root->stl->info == value) ||
+        (root->str != NULL && root->str->info == value)) {
+        return root; // Retorna o pai do nó
+    }
+    // Recursivamente busca o pai nos filhos esquerdo e direito
+    Tree* left_parent = find_parent(root->stl, value);
+    if (left_parent != NULL) {
+        return left_parent;
+    }
+    return find_parent(root->str, value);
+}
+
+Tree* find_grandparent(Tree* root, Tree* parent) {
+    if (parent == NULL || root == NULL) {
+        return NULL; // Se o pai ou a raiz forem nulos, não há avô
+    }
+    return find_parent(root, parent->info); // Encontra o avô do nó
+}
+
+void show_grandchildren(Tree *root, int value) {
+    Tree* node = findNode(root, value);
+    if (node == NULL) {
+        cout << "Nó não encontrado na árvore." << endl;
+        return;
+    }
+    if (node->stl != NULL) {
+        if (node->stl->stl != NULL) {
+            cout << "Neto esquerdo: " << node->stl->stl->info << endl;
+        }
+        if (node->stl->str != NULL) {
+            cout << "Neto direito: " << node->stl->str->info << endl;
+        }
+    }
+    if (node->str != NULL) {
+        if (node->str->stl != NULL) {
+            cout << "Neto esquerdo: " << node->str->stl->info << endl;
+        }
+        if (node->str->str != NULL) {
+            cout << "Neto direito: " << node->str->str->info << endl;
+        }
+    }
+}
+
+int count_odd_nodes(Tree *root) {
+    if (root == NULL) {
+        return 0; // Se a árvore estiver vazia, retorna 0 nós ímpares
+    }
+
+    int count = 0; // Inicializa o contador de nós ímpares
+
+    // Verifica se o valor do nó atual é ímpar
+    if (root->info % 2 != 0) {
+        count++;
+    }
+
+    // Percorre recursivamente a subárvore esquerda e direita e soma os nós ímpares
+    count += count_odd_nodes(root->stl);
+    count += count_odd_nodes(root->str);
+
+    return count;
+}
+
 void pause()
 {
     cout << "\n" << endl;
