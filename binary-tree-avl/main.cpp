@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include <cctype>
+#include <fstream>
 
 using namespace std;
 
@@ -426,7 +427,7 @@ bool is_complete_tree(Tree *root, int index, int num_nodes) {
     if (index >= num_nodes)
         return false;
 
-    // Verificar recursivamente se os filhos esquerdo e direito são árvores completas
+    // Verificar recursivamente se os filhos esquerdo e direito sï¿½o ï¿½rvores completas
     return is_complete_tree(root->stl, 2 * index + 1, num_nodes) &&
            is_complete_tree(root->str, 2 * index + 2, num_nodes);
 }
@@ -438,7 +439,7 @@ bool is_complete_tree(Tree *root) {
 
 Tree* minValueNode(Tree* node) {
     Tree* current = node;
-    // Encontra o nó mais à esquerda na subárvore direita
+    // Encontra o nï¿½ mais ï¿½ esquerda na subï¿½rvore direita
     while (current && current->stl != NULL)
         current = current->stl;
     return current;
@@ -446,7 +447,7 @@ Tree* minValueNode(Tree* node) {
 
 Tree* maxValueNode(Tree* node) {
     Tree* current = node;
-    // Encontra o nó mais à direita na subárvore esquerda
+    // Encontra o nï¿½ mais ï¿½ direita na subï¿½rvore esquerda
     while (current && current->str != NULL)
         current = current->str;
     return current;
@@ -544,7 +545,7 @@ void shortestPath(Tree* root, int node1, int node2) {
     int path1[MAX_SIZE], path2[MAX_SIZE];
     int pathLen1 = 0, pathLen2 = 0;
     if (!findPath(root, node1, path1, pathLen1) || !findPath(root, node2, path2, pathLen2)) {
-        cout << "Pelo menos um dos nós não está presente na árvore." << endl;
+        cout << "Pelo menos um dos nï¿½s nï¿½o estï¿½ presente na ï¿½rvore." << endl;
         return;
     }
 
@@ -694,18 +695,14 @@ void print_tree_structure(Tree* root, int level = 0) {
         return;
     }
 
-    // Indentação para representar o nível atual da árvore
     for (int i = 0; i < level; ++i) {
         cout << "  ";
     }
 
-    // Imprime o valor do nó atual
     cout << root->info << endl;
 
-    // Imprime recursivamente a subárvore esquerda com um nível a mais
     print_tree_structure(root->stl, level + 1);
 
-    // Imprime recursivamente a subárvore direita com um nível a mais
     print_tree_structure(root->str, level + 1);
 }
 
@@ -713,24 +710,24 @@ void calculate_sum_and_count(Tree *root, int &sum, int &count) {
     if (root == nullptr) {
         return;
     }
-    // Percorre a subárvore esquerda
+
     calculate_sum_and_count(root->stl, sum, count);
-    // Incrementa a soma com o valor do nó atual
+
     sum += root->info;
-    // Incrementa o contador de nós
+
     count++;
-    // Percorre a subárvore direita
+
     calculate_sum_and_count(root->str, sum, count);
 }
 
 double calculate_tree_average(Tree *root) {
-    int sum = 0; // Soma dos valores
-    int count = 0; // Contador de nós
-    calculate_sum_and_count(root, sum, count); // Chama a função auxiliar para calcular a soma e o contador
+    int sum = 0;
+    int count = 0;
+    calculate_sum_and_count(root, sum, count);
     if (count == 0) {
-        return 0; // Retorna 0 se a árvore estiver vazia
+        return 0;
     }
-    // Calcula a média
+
     return static_cast<double>(sum) / count;
 }
 
@@ -738,24 +735,24 @@ void swap_subtrees(Tree *root) {
     if (root == NULL) {
         return;
     }
-    // Troca as subárvores esquerda e direita
+
     Tree *temp = root->stl;
     root->stl = root->str;
     root->str = temp;
-    // Chama a função recursivamente para as subárvores
+
     swap_subtrees(root->stl);
     swap_subtrees(root->str);
 }
 
 Tree* find_parent(Tree* root, int value) {
     if (root == NULL || root->info == value) {
-        return NULL; // O nó não tem pai ou é a raiz
+        return NULL;
     }
     if ((root->stl != NULL && root->stl->info == value) ||
         (root->str != NULL && root->str->info == value)) {
-        return root; // Retorna o pai do nó
+        return root;
     }
-    // Recursivamente busca o pai nos filhos esquerdo e direito
+
     Tree* left_parent = find_parent(root->stl, value);
     if (left_parent != NULL) {
         return left_parent;
@@ -765,15 +762,15 @@ Tree* find_parent(Tree* root, int value) {
 
 Tree* find_grandparent(Tree* root, Tree* parent) {
     if (parent == NULL || root == NULL) {
-        return NULL; // Se o pai ou a raiz forem nulos, não há avô
+        return NULL;
     }
-    return find_parent(root, parent->info); // Encontra o avô do nó
+    return find_parent(root, parent->info);
 }
 
 void show_grandchildren(Tree *root, int value) {
     Tree* node = findNode(root, value);
     if (node == NULL) {
-        cout << "Nó não encontrado na árvore." << endl;
+        cout << "Nï¿½ nï¿½o encontrado na ï¿½rvore." << endl;
         return;
     }
     if (node->stl != NULL) {
@@ -796,21 +793,164 @@ void show_grandchildren(Tree *root, int value) {
 
 int count_odd_nodes(Tree *root) {
     if (root == NULL) {
-        return 0; // Se a árvore estiver vazia, retorna 0 nós ímpares
+        return 0;
     }
 
-    int count = 0; // Inicializa o contador de nós ímpares
+    int count = 0;
 
-    // Verifica se o valor do nó atual é ímpar
     if (root->info % 2 != 0) {
         count++;
     }
 
-    // Percorre recursivamente a subárvore esquerda e direita e soma os nós ímpares
     count += count_odd_nodes(root->stl);
     count += count_odd_nodes(root->str);
 
     return count;
+}
+
+int count_nodes_with_fb_minus_one(Tree *root) {
+    if (root == NULL) {
+        return 0;
+    }
+    int count = 0;
+    if (root->fb == -1) {
+        count++;
+    }
+    count += count_nodes_with_fb_minus_one(root->stl);
+    count += count_nodes_with_fb_minus_one(root->str);
+    return count;
+}
+
+int count_nodes_with_fb_plus_one(Tree *root) {
+    if (root == NULL) {
+        return 0;
+    }
+    int count = 0;
+    if (root->fb == 1) {
+        count++;
+    }
+    count += count_nodes_with_fb_plus_one(root->stl);
+    count += count_nodes_with_fb_plus_one(root->str);
+    return count;
+}
+
+int count_nodes_with_fb_zero(Tree *root) {
+    if (root == NULL) {
+        return 0;
+    }
+    int count = 0;
+    if (root->fb == 0) {
+        count++;
+    }
+    count += count_nodes_with_fb_zero(root->stl);
+    count += count_nodes_with_fb_zero(root->str);
+    return count;
+}
+
+void show_descendants(Tree *root, int value) {
+    Tree* node = findNode(root, value);
+
+    if (node == NULL) {
+        cout << "Nï¿½ nï¿½o encontrado na ï¿½rvore." << endl;
+        return;
+    }
+
+    if (node->stl != NULL) {
+        cout << "Descendente ï¿½ esquerda: " << node->stl->info << endl;
+    }
+    if (node->str != NULL) {
+        cout << "Descendente ï¿½ direita: " << node->str->info << endl;
+    }
+}
+
+void processInputLine(Tree **tree, string action, int value)
+{
+    int declaredOperation = 0;
+
+    if (action == "Incluir")
+    {
+        declaredOperation = 1;
+    }
+    else if (action == "Remover")
+    {
+        declaredOperation = 2;
+    }
+    else if (action == "Mostrar")
+    {
+      declaredOperation = 3;
+    }
+    else
+    {
+        cout << "Operacao nao reconhecida" << endl;
+        return;
+    }
+
+    switch (declaredOperation)
+    {
+    case 1:
+            // Insere e faz o balanco
+            insert_and_balance(tree, value);
+        break;
+    case 2:
+        if (tree != NULL)
+        {
+            // Remove e faz o balanco
+            remove_and_balance(tree, value);
+        }
+        break;
+    case 3:
+        // Mostrar e faz o balanco
+        if (tree != NULL)
+        {
+            if (value == 1) {
+                // (exibe a Ã¡rvore em prÃ©-ordem)
+                show_pre_order(*tree);
+            } else if (value == 2) {
+                // (exibe a Ã¡rvore em ordem simÃ©trica)
+                show_in_simetric_order(*tree);
+            } else {
+                // (exibe a Ã¡rvore em pÃ³s-ordem)
+                show_post_order(*tree);
+            }
+        }
+        break;
+    default:
+        cout << "Nao implementado" << endl;
+        break;
+    }
+}
+
+string processInputFile(Tree **tree, string file_name)
+{
+    ifstream file(file_name);
+
+    if (!file.is_open())
+    {
+        return "O arquivo " + file_name + " nao foi encontrado";
+    }
+    else
+    {
+        string line;
+        while (getline(file, line))
+        {
+            string action;
+            int value;
+            stringstream ss(line);
+            ss >> action >> value;
+            processInputLine(tree, action, value);
+        }
+    }
+
+    file.close();
+
+    return "\nProcessamento finalizado";
+}
+
+string show_file_process_result(Tree **tree, string file_name)
+{
+    string process_result = processInputFile(tree, file_name);
+    cout << process_result << endl;
+    return process_result;
 }
 
 void pause()
@@ -926,7 +1066,7 @@ main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 10;
+    int menu_size = 9;
 
     string menu[menu_size] =
     {
@@ -939,7 +1079,6 @@ main()
         "Limpar Arvore",
         "Altura da Arvore",
         "Mostra fator",
-        "print_level_order",
     };
 
     Tree *root = NULL;

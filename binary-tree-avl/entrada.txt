@@ -1,0 +1,8 @@
+Incluir 10
+Incluir 7
+Incluir 9
+Mostrar 1 (exibe a árvore em pré-ordem)
+Incluir 5
+Incluir 18
+Remover 7
+Mostrar 2 (exibe a árvore em ordem simétrica)
