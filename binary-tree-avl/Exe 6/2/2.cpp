@@ -348,6 +348,28 @@ void show_pre_order(Tree *tree)
     cout << ">";
 }
 
+int count_students(Tree *root) {
+    if (root == NULL) {
+        return 0;
+    } else {
+        return 1 + count_students(root->stl) + count_students(root->str);
+    }
+}
+
+float calculate_class_average(Tree *root) {
+    if (root == NULL) {
+        return 0.0;
+    } else {
+        float sum = root->info.media;
+        int count = 1;
+        sum += calculate_class_average(root->stl);
+        count += count_students(root->stl);
+        sum += calculate_class_average(root->str);
+        count += count_students(root->str);
+        return sum / count;
+    }
+}
+
 void pause()
 {
     cout << "\n" << endl;
