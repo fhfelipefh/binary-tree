@@ -132,7 +132,7 @@ int tree_height(Tree *root)
     }
 }
 
-int factor_balalance(Tree *root)
+int factor_balance(Tree *root)
 {
     int factor = 0;
 
@@ -149,7 +149,7 @@ void calc_fb(Tree *root)
 {
     if(!is_empty_tree(root))
     {
-        root->fb = factor_balalance(root);
+        root->fb = factor_balance(root);
         if(root->stl != NULL)
         {
             calc_fb(root->stl);
@@ -245,11 +245,11 @@ Tree* balance_tree_node (Tree *root )
         root->str = balance_tree_node(root->str);
     }
 
-    int factor = factor_balalance(root);
+    int factor = factor_balance(root);
 
     if (factor >= 2)
     {
-        if (factor_balalance(root->stl) <= -1 )
+        if (factor_balance(root->stl) <= -1 )
         {
             tree_with_balance = rotate_lr(root);
         }
@@ -261,7 +261,7 @@ Tree* balance_tree_node (Tree *root )
     }
     else if (factor <= -2)
     {
-        if (factor_balalance(root->str) >= 1 )
+        if (factor_balance(root->str) >= 1 )
         {
             tree_with_balance = rotate_rl(root);
         }
@@ -348,6 +348,29 @@ Tree* findNode(Tree* root, int value) {
     return findNode(root->stl, value);
 }
 
+void show_descendants(Tree *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    bool has_descendants = false;
+
+    if (node->stl != NULL) {
+        cout << "Descendente a esquerda: " << node->stl->info << endl;
+        show_descendants(node->stl);
+        has_descendants = true;
+    }
+    if (node->str != NULL) {
+        cout << "Descendente a direita: " << node->str->info << endl;
+        show_descendants(node->str);
+        has_descendants = true;
+    }
+
+    if (!has_descendants) {
+        cout << "Nao ha descendentes para este no." << endl;
+    }
+}
+
 void show_descendants(Tree *root, int value) {
     Tree* node = findNode(root, value);
 
@@ -356,12 +379,8 @@ void show_descendants(Tree *root, int value) {
         return;
     }
 
-    if (node->stl != NULL) {
-        cout << "Descendente a esquerda: " << node->stl->info << endl;
-    }
-    if (node->str != NULL) {
-        cout << "Descendente a direita: " << node->str->info << endl;
-    }
+    cout << "Descendentes de " << node->info << ":" << endl;
+    show_descendants(node);
 }
 
 void processInputLine(Tree **tree, string action, int value)
@@ -391,12 +410,14 @@ void processInputLine(Tree **tree, string action, int value)
     case 1:
             // Insere e faz o balanco
             insert_and_balance(tree, value);
+            cout << "Inserido: " << value << endl;
         break;
     case 2:
         if (tree != NULL)
         {
             // Remove e faz o balanco
             remove_and_balance(tree, value);
+            cout << "Removido: " << value << endl;
         }
         break;
     case 3:
@@ -404,13 +425,16 @@ void processInputLine(Tree **tree, string action, int value)
         if (tree != NULL)
         {
             if (value == 1) {
-                // (exibe a árvore em pré-ordem)
+                // (exibe a ï¿½rvore em prï¿½-ordem)
+                cout << "Pre ordem: " << endl;
                 show_pre_order(*tree);
+                cout << endl;
             } else if (value == 2) {
-                // (exibe a árvore em ordem simétrica)
+                // (exibe a ï¿½rvore em ordem simï¿½trica)
+                cout << "Ordem simetrica: " << endl;
                 show_in_simetric_order(*tree);
             } else {
-                // Não implementado
+                // Nï¿½o implementado
             }
         }
         break;
@@ -453,6 +477,31 @@ string show_file_process_result(Tree **tree, string file_name)
     return process_result;
 }
 
+int get_number_dialog()
+{
+    int num;
+    string input;
+    cout << "Digite um numero: ";
+
+    while (true)
+    {
+        cin >> input;
+        if (all_of(input.begin(), input.end(), ::isdigit))
+        {
+            stringstream ss(input);
+            ss >> num;
+            break;
+        }
+        else
+        {
+            cout << "Digite um numero valido: ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+    return num;
+}
+
 void pause()
 {
     cout << "\n" << endl;
@@ -485,34 +534,22 @@ void show_menu(string menu[], int size, Tree *root)
         case 1:
             system("cls");
             cout << "--- " << menu[selectedOption] << " ---" << endl;
-            input = get_number_dialog();
-            insert_in_tree(&root,input);
-            calc_fb(root);
-            if(verify_avl_balance(root) != 0)
-            {
-                root = balance_tree_node(root);
-                calc_fb(root);
-            }
+            cout << "Quantidade de nos com FB = -1: " << count_nodes_with_fb_minus_one(root) << endl;
+            pause();
             break;
         case 2:
             system("cls");
             cout << "--- " << menu[selectedOption] << " ---" << endl;
-            show_pre_order(root);
+            cout << "Quantidade de nos com FB = +1: " << count_nodes_with_fb_plus_one(root) << endl;
             pause();
             break;
         case 3:
             system("cls");
             cout << "--- " << menu[selectedOption] << " ---" << endl;
-            show_in_simetric_order(root);
+            cout << "Quantidade de nos com FB = 0: " << count_nodes_with_fb_zero(root) << endl;
             pause();
             break;
         case 4:
-            system("cls");
-            cout << "--- " << menu[selectedOption] << " ---" << endl;
-            show_post_order(root);
-            pause();
-            break;
-        case 5:
             system("cls");
             cout << "--- " << menu[selectedOption] << " ---" << endl;
             if (is_empty_tree(root))
@@ -521,14 +558,15 @@ void show_menu(string menu[], int size, Tree *root)
                 pause();
                 break;
             }
+            cout << "Digite o valor do no: ";
             input = get_number_dialog();
-            root = remove_node(&root, input);
-            calc_fb(root);
-            if(verify_avl_balance(root) != 0)
-            {
-                root = balance_tree_node(root);
-                calc_fb(root);
-            }
+            show_descendants(root, input);
+            pause();
+            break;
+        case 5:
+            system("cls");
+            cout << "--- " << menu[selectedOption] << " ---" << endl;
+            show_file_process_result(&root, "entrada.txt");
             pause();
             break;
         default:
@@ -543,14 +581,14 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    int menu_size = 4;
+    int menu_size = 6;
 
     string menu[menu_size] =
     {
         "Sair",
-        "Funcao que apresente a quantidade de nós com FB = -1",
-        "Funcao que apresente a quantidade de nós com FB = +1",
-        "Funcao que apresente a quantidade de nós com FB = 0",
+        "Funcao que apresente a quantidade de nos com FB = -1",
+        "Funcao que apresente a quantidade de nos com FB = +1",
+        "Funcao que apresente a quantidade de nos com FB = 0",
         "Funcao que recebe um valor qualquer e apresenta os descendentes deste no",
         "Funcao que le um arquivo texto e realize as acoes descritas no arquivo, seguindo o seguinte formato",
     };

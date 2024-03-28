@@ -144,7 +144,7 @@ int tree_height(Tree *root)
     }
 }
 
-int factor_balalance(Tree *root)
+int factor_balance(Tree *root)
 {
     int factor = 0;
 
@@ -161,7 +161,7 @@ void calc_fb(Tree *root)
 {
     if(!is_empty_tree(root))
     {
-        root->fb = factor_balalance(root);
+        root->fb = factor_balance(root);
         if(root->stl != NULL)
         {
             calc_fb(root->stl);
@@ -257,11 +257,11 @@ Tree* balance_tree_node (Tree *root )
         root->str = balance_tree_node(root->str);
     }
 
-    int factor = factor_balalance(root);
+    int factor = factor_balance(root);
 
     if (factor >= 2)
     {
-        if (factor_balalance(root->stl) <= -1 )
+        if (factor_balance(root->stl) <= -1 )
         {
             tree_with_balance = rotate_lr(root);
         }
@@ -273,7 +273,7 @@ Tree* balance_tree_node (Tree *root )
     }
     else if (factor <= -2)
     {
-        if (factor_balalance(root->str) >= 1 )
+        if (factor_balance(root->str) >= 1 )
         {
             tree_with_balance = rotate_rl(root);
         }
@@ -575,11 +575,11 @@ void balance_and_describe(Tree **pRoot)
 
     while (true)
     {
-        int factor = factor_balalance(*pRoot);
+        int factor = factor_balance(*pRoot);
 
         if (factor >= 2)
         {
-            if (factor_balalance((*pRoot)->stl) <= -1)
+            if (factor_balance((*pRoot)->stl) <= -1)
             {
                 *pRoot = rotate_lr(*pRoot);
                 cout << "LR rotation" << endl;
@@ -592,7 +592,7 @@ void balance_and_describe(Tree **pRoot)
         }
         else if (factor <= -2)
         {
-            if (factor_balalance((*pRoot)->str) >= 1)
+            if (factor_balance((*pRoot)->str) >= 1)
             {
                 *pRoot = rotate_rl(*pRoot);
                 cout << "RL rotation" << endl;
